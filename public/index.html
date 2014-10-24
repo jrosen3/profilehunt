@@ -2,22 +2,30 @@
 <html ng-app="ProfileHunt">
   <head>
     <title>Profile Hunt</title>
+    
+    <!-- Anugular -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    
+    <!-- Parse -->
+    <script src="http://www.parsecdn.com/js/parse-1.3.1.min.js"></script>
+    
+    <!-- JavaScript -->
+    <script src="facebook.js"></script>
+    <script src="app.js"></script>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
-    <script src="http://www.parsecdn.com/js/parse-1.3.1.min.js"></script>
-    <script src="app.js"></script>
-     <script src="facebook.js"></script>
   </head>
   <body ng-controller="page">
     <header>
-        <button ng-hide="firstname" ng-click="login($event)">Log In</button>
-        <p ng-show="firstname">Hello {{firstname}}!</p>
+      <button ng-hide="firstname" ng-click="login($event)">Log In</button>
+      <p ng-show="firstname">Hello {{firstname}}!</p>
     </header>
      <form ng-submit="submit()">
-          <input name="url" ng-model="url" type="url" placeholder = "url">
-          <input name="description" ng-model="description" type = "text" placeholder = "description">
-          <input type="submit" value = "submit">
-        </form>
+        <input name="url" ng-model="url" type="url" placeholder="url">
+        <input name="description" ng-model="description" type="text" placeholder="description">
+        <input type="submit" value="submit">
+      </form>
   </body>
 </html>
