@@ -1,0 +1,116 @@
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+header {
+  width: 400px;
+  height: 50px;
+  margin: 0px 0px 0px -200px; /* 1/2 of width*/
+  top: 0px;
+  left: 50%;
+  position: fixed;
+  background-color: green;
+}
+
+#logo {
+  width: 90px;
+  height: 30px;
+  float: left;
+  margin: 10px;
+  background-color: yellow;
+  border-radius: 5px
+}
+
+#login-button, #login-pic, #add-profile-button {
+  width: 30px;
+  height: 30px;
+  float: right;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#login-pic, #login-button {
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+#login-button {
+  background-image: url("../img/fb.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#add-profile-button {
+  margin-right: 5px;
+  margin-left: 0px;
+  background-image: url("../img/add.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#add-modal {
+  width: 400px;
+  height: 400px;
+  background-color: pink;
+  border-radius: 5px;
+}
+
+#add-modal form {
+  /*Make it look good*/
+}
+
+#add-modal form input[name="name"] {
+  /*Make it look good*/
+}
+
+#add-modal form input[name="url"] {
+  /*Make it look good*/
+}
+
+#add-modal form input[name="description"] {
+  /*Make it look good*/
+}
+
+#add-modal textarea {
+  resize: none;
+  width: 200px;
+  height: 100px;
+}
+
+#add-modal form input[type="submit"] {
+  /*Make it look good*/
+}
+
+#add-modal form input[type="button"] {
+  /*Make it look good*/
+}
+#content {
+  width: 400px;
+  height: 100%;
+  position: fixed;
+  overflow: auto;
+  margin: 0px 0px 0px -200px; /* 1/2 of width*/
+  top: 60px;
+  left: 50%;
+  /*background-color: yellow;*/
+}
+
+.cards {
+  width: 100%;
+  height: 400px;
+  margin: 0px 0px 10px 0px;
+  background-color: pink;
+}
+
+#padding {
+  width: 100%;
+  height: 50px; /*height of header to offset */
+  margin: 0px 0px 10px 0px;
+  background-color: green;
+}
+
+
