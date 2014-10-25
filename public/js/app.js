@@ -1,9 +1,10 @@
-angular.module('ProfileHunt',[])
+var app = angular.module('ProfileHunt',[])
   .controller('page', ['$scope', function ($scope) {
     //Init Parse
     Parse.initialize("n8jGCT80CjVisMzAjmIcf7AqyFiYVa9kPuZ6HJDk", "461lPAhmknRzQbrlxDHnKax15eC7x30oJjlG11Eb");
     
     $scope.firstname = null;
+    $scope.profilepic = null;
     
     //check current user
     var currentUser = Parse.User.current();
@@ -22,6 +23,15 @@ angular.module('ProfileHunt',[])
           function (response) {
             if (response && !response.error) {
               $scope.firstname = response.first_name;
+              $scope.$apply();
+            }
+          }
+        );
+        FB.api(
+          "/me/picture",
+          function (response) {
+            if (response && !response.error) {
+              $scope.profilepic = response.data.url;
               $scope.$apply();
             }
           }
@@ -52,6 +62,15 @@ angular.module('ProfileHunt',[])
               }
             }
           );
+          FB.api(
+          "/me/picture",
+          function (response) {
+            if (response && !response.error) {
+              $scope.profilepic = response.data.url;
+              $scope.$apply();
+            }
+          }
+        );
         },
         error: function(user, error) {
           // alert("User cancelled the Facebook login or did not fully authorize.");
@@ -84,10 +103,17 @@ angular.module('ProfileHunt',[])
         }); 
       } 
     }
-
-
-
   }]);
+
+app.directive('backImg', function(){
+  return function(scope, element, attrs){
+    attrs.$observe('backImg', function(value) {
+      element.css({
+        'background-image': 'url(' + value +')'
+      });
+    });
+  };
+});
 
 
 

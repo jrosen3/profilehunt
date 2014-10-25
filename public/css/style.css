@@ -36,6 +36,12 @@ header {
   margin-left: 5px;
 }
 
+#login-pic {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 #login-button {
   background-image: url("../img/fb.png");
   background-size: cover;
