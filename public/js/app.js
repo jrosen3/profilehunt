@@ -81,9 +81,19 @@ var app = angular.module('ProfileHunt',[])
     $scope.submit = function(){
       var url = this.url;
       var des = this.description;
+      var tags = this.tags;
+      var name = this.name;
       if (!currentUser) {
         alert("Please log in to add a profile. Please sign up");
-      } else if ((url != null) && (des != null)){
+      } else if () {
+        // bad name
+      } else if () {
+        //bad url
+      } else if () {
+        //bad des
+      } else if (){
+        //bad tags
+      } else {
         var Profile = Parse.Object.extend("Profile");
         var query = new Parse.Query(Profile);
         query.equalTo("url", url);
