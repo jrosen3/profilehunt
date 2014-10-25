@@ -78,21 +78,32 @@ var app = angular.module('ProfileHunt',[])
       });
     }
 
+   $scope.choices = [''];
+  
+  // $scope.addNewChoice = function() {
+  //   var newItemNo = $scope.choices.length+1;
+  //   $scope.choices.push({'value':'choice'+newItemNo});
+  // };
+  
+  $scope.keypress = function(e) {
+    if(e.keyCode == 13){
+      console.log($scope.choices);
+      $scope.choices.splice(($scope.choices.length - 1), 0, this.tagname);
+      console.log($scope.choices);
+    }
+  };
+
+
     $scope.submit = function(){
+      //disable enter key
+
+
       var url = this.url;
       var des = this.description;
       var tags = this.tags;
       var name = this.name;
       if (!currentUser) {
         alert("Please log in to add a profile. Please sign up");
-      } else if () {
-        // bad name
-      } else if () {
-        //bad url
-      } else if () {
-        //bad des
-      } else if (){
-        //bad tags
       } else {
         var Profile = Parse.Object.extend("Profile");
         var query = new Parse.Query(Profile);
@@ -101,18 +112,44 @@ var app = angular.module('ProfileHunt',[])
           success: function(profiles){
             if(profiles.length > 0){
               console.log("it exists");
-            } else if (url.length > 5 && des.length > 5){
-              var profile = new Profile();
-              profile.save({"url": url, "description": des}).then(function(object){
-                $scope.url = null;
-                $scope.description = null;
-                $scope.$apply();
-              });
+            } else {
+              if (name == null) {
+                // console.log("bad name");
+              } else if (name.length < 1) {
+                // console.log("add full name");
+              } else if (url == null) {
+                // console.log("bad url");
+              } else if (url.length < 10) {
+                // console.log("add full url");
+              } else if (des == null) {
+                // console.log("bad description");
+              } else if (des.length < 10) {
+                // console.log("add full description");
+              } else if (tags == null){
+                // console.log("bad tags");
+              } else if (tags.length < 10) {
+                // console.log("add more tags");
+              } else {
+                // process tags
+
+
+                var profile = new Profile();
+                profile.save({"name":name, "url": url, "description": des}).then(function(object){
+                  $scope.name = null;
+                  $scope.url = null;
+                  $scope.description = null;
+                  $scope.tags = null;
+                  $scope.$apply();
+                });
+
+                // add everything new to proper table
+              }; 
             }
           }
-        }); 
-      } 
+        });
+      }  
     }
+  // end of module  
   }]);
 
 app.directive('backImg', function(){
