@@ -5,7 +5,7 @@ var app = angular.module('ProfileHunt',["angucomplete"])
     
     $scope.firstname = null;
     $scope.profilepic = null;
-    $scope.countries = ["red", 'green','blte'];
+    $scope.tags = [{"name":"red"}, {"name":'green'},{"name":"blue"}, {"name":"purple"}];
     
     //check current user
     var currentUser = Parse.User.current();
@@ -80,20 +80,31 @@ var app = angular.module('ProfileHunt',["angucomplete"])
     }
 
     $scope.choices = [];
-    $scope.keypress = function(e) {
-      if(e.keyCode == 13) {
-        $scope.choices.push(this.tagname);
-        $scope.tagname = null;
-        // console.log($scope.choices);
+
+    $scope.$on('sendTagChecked', function(event, data){
+      if ($scope.choices.indexOf(data) < 0) {
+        $scope.choices.push(data);
+      } else {
+        // console.log('This tag has already been added');
       }
-    };
+      console.log($scope.choices);
+    });
+
+    $scope.$on('sendTagUnChecked', function(event, data){
+      if ($scope.choices.indexOf(data) < 0) {
+        $scope.choices.push(data);
+      } else {
+        // console.log('This tag has already been added');
+      }
+      console.log($scope.choices);
+    });
 
     $scope.deleteTag = function(tag) {
       var index = $scope.choices.indexOf(tag);
       if (index > -1) {
         $scope.choices.splice(index, 1);
       }
-      // console.log($scope.choices);
+      console.log($scope.choices);
     };
 
     $scope.submit = function(){

@@ -180,7 +180,11 @@ angular.module('angucomplete', [] )
                         }, $scope.pause);
                     }
                 } else {
+                    if (event.which == 13) {
+                        $scope.$emit('sendTagUnChecked', $scope.searchStr);
+                    }
                     event.preventDefault();
+                    // make sure in list then add to array
                 }
             }
 
@@ -191,6 +195,8 @@ angular.module('angucomplete', [] )
                 $scope.searchStr = $scope.lastSearchTerm = result.title;
                 $scope.selectedObject = result;
                 $scope.showDropdown = false;
+                // console.log(result.title);
+                $scope.$emit('sendTagChecked', result.title);
                 $scope.results = [];
                 //$scope.$apply();
             }

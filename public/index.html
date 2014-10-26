@@ -17,10 +17,12 @@
     <script src="js/jquery.easyModal.js"></script>
     <script src="js/modal.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/angucomplete.js"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/angucomplete.css">
   </head>
   <body ng-controller="page">
     <header>
@@ -47,16 +49,17 @@
             {{choice}}
           </div>
         </div>
-        <input type="text" ng-model="tagname" placeholder="#tag" ng-keyup="keypress($event)">
+        <!-- <input type="text" ng-model="tagname" placeholder="#tag" ng-keyup="keypress($event)"> -->
         <angucomplete id="ex1"
-              placeholder="Search countries"
-              pause="100"
-              selectedobject="selectedCountry"
-              localdata="countries"
-              searchfields="name"
-              titlefield="name"
-              minlength="1"
-              inputclass="form-control form-control-small"/>
+          placeholder="#tag"
+          pause="100"
+          selectedobject="selectedTag"
+          localdata="tags"
+          searchfields="name"
+          titlefield="name"
+          minlength="1"
+          inputclass="form-control form-control-small"
+          />
         <input type="button" value="Submit" ng-click="submit()">
         <input type="button" value="Cancel" onclick="close_modal()">
       </form>
