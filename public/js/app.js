@@ -9,16 +9,19 @@ var app = angular.module('ProfileHunt',["angucomplete"])
 
     //get tags from database
     $scope.tags = [];
+    $scope.tagList = [];
     var Tags = Parse.Object.extend("Tags");
     var query = new Parse.Query(Tags);
     query.find({
       success: function(results) {
         // results is an array of Parse.Object.
         for (i = 0; i < results.length; i++){
-          $scope.tags.push({"name":results[i].attributes.tag_name});
+          var tag_name = results[i].attributes.tag_name; 
+          tag_name = tag_name.toLowerCase();
+          $scope.tagList.push(tag_name);
+          $scope.tags.push({"name": tag_name});
         }
         $scope.$apply();
-        console.log($scope.tags);
       },
 
       error: function(error) {
@@ -101,21 +104,24 @@ var app = angular.module('ProfileHunt',["angucomplete"])
     $scope.choices = [];
 
     $scope.$on('sendTagChecked', function(event, data){
-      if ($scope.choices.indexOf(data) < 0) {
+      if ($scope.choices.indexOf(data) == -1) {
         $scope.choices.push(data);
       } else {
-        // console.log('This tag has already been added');
+        // console.log('this tag has already been added');
       }
-      console.log($scope.choices);
     });
 
     $scope.$on('sendTagUnChecked', function(event, data){
-      if ($scope.choices.indexOf(data) < 0) {
-        $scope.choices.push(data);
+      if ($scope.tagList.indexOf(data) > -1) {
+        // console.log("this is a valid tag");
+        if($scope.choices.indexOf(data) == -1){
+          $scope.choices.push(data);
+        } else {
+          // console.log("this tag has already been added");
+        }
       } else {
-        // console.log('This tag has already been added');
+        // console.log('this is not a valid tag');
       }
-      console.log($scope.choices);
     });
 
     $scope.deleteTag = function(tag) {

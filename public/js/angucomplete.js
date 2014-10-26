@@ -182,6 +182,8 @@ angular.module('angucomplete', [] )
                 } else {
                     if (event.which == 13) {
                         $scope.$emit('sendTagUnChecked', $scope.searchStr);
+                        $scope.showDropdown = false;
+                        $scope.searchStr = "";
                     }
                     event.preventDefault();
                     // make sure in list then add to array
@@ -226,6 +228,7 @@ angular.module('angucomplete', [] )
                 } else if (event.which == 13) {
                     if ($scope.results && $scope.currentIndex >= 0 && $scope.currentIndex < $scope.results.length) {
                         $scope.selectResult($scope.results[$scope.currentIndex]);
+                        $scope.searchStr = "";
                         $scope.$apply();
                         event.preventDefault;
                         event.stopPropagation();
