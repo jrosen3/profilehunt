@@ -1,10 +1,11 @@
-var app = angular.module('ProfileHunt',[])
+var app = angular.module('ProfileHunt',["angucomplete"])
   .controller('page', ['$scope', function ($scope) {
     //Init Parse
     Parse.initialize("n8jGCT80CjVisMzAjmIcf7AqyFiYVa9kPuZ6HJDk", "461lPAhmknRzQbrlxDHnKax15eC7x30oJjlG11Eb");
     
     $scope.firstname = null;
     $scope.profilepic = null;
+    $scope.countries = ["red", 'green','blte'];
     
     //check current user
     var currentUser = Parse.User.current();
