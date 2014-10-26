@@ -5,8 +5,27 @@ var app = angular.module('ProfileHunt',["angucomplete"])
     
     $scope.firstname = null;
     $scope.profilepic = null;
-    $scope.tags = [{"name":"red"}, {"name":'green'},{"name":"blue"}, {"name":"purple"}];
     
+
+    //get tags from database
+    $scope.tags = [];
+    var Tags = Parse.Object.extend("Tags");
+    var query = new Parse.Query(Tags);
+    query.find({
+      success: function(results) {
+        // results is an array of Parse.Object.
+        for (i = 0; i < results.length; i++){
+          $scope.tags.push({"name":results[i].attributes.tag_name});
+        }
+        $scope.$apply();
+        console.log($scope.tags);
+      },
+
+      error: function(error) {
+        // error is an instance of Parse.Error.
+      }
+    });
+        
     //check current user
     var currentUser = Parse.User.current();
     window.fbAsyncInit = function() {
