@@ -78,26 +78,24 @@ var app = angular.module('ProfileHunt',[])
       });
     }
 
-   $scope.choices = [''];
-  
-  // $scope.addNewChoice = function() {
-  //   var newItemNo = $scope.choices.length+1;
-  //   $scope.choices.push({'value':'choice'+newItemNo});
-  // };
-  
-  $scope.keypress = function(e) {
-    if(e.keyCode == 13){
-      console.log($scope.choices);
-      $scope.choices.splice(($scope.choices.length - 1), 0, this.tagname);
-      console.log($scope.choices);
-    }
-  };
+    $scope.choices = [];
+    $scope.keypress = function(e) {
+      if(e.keyCode == 13) {
+        $scope.choices.push(this.tagname);
+        $scope.tagname = null;
+        // console.log($scope.choices);
+      }
+    };
 
+    $scope.deleteTag = function(tag) {
+      var index = $scope.choices.indexOf(tag);
+      if (index > -1) {
+        $scope.choices.splice(index, 1);
+      }
+      // console.log($scope.choices);
+    };
 
     $scope.submit = function(){
-      //disable enter key
-
-
       var url = this.url;
       var des = this.description;
       var tags = this.tags;

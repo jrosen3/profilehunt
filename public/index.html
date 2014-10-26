@@ -42,8 +42,12 @@
         <input name="url" ng-model="url" type="url" placeholder="https://www.flickr.com/photos/HanSolo">
         <input name="description" ng-model="description" type="text" placeholder="Great intergalactic photography">
         <div class="form-group" data-ng-repeat="choice in choices">
-          <input type="text" ng-model="tagname" value="{{choice}}" placeholder="#tag" ng-keyup="keypress($event)">
+          <div>
+            <div class="delete-tag" ng-click="deleteTag(choice)"></div>
+            {{choice}}
+          </div>
         </div>
+        <input type="text" ng-model="tagname" placeholder="#tag" ng-keyup="keypress($event)">
         <input type="button" value="Submit" ng-click="submit()">
         <input type="button" value="Cancel" onclick="close_modal()">
       </form>

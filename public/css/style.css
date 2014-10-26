@@ -81,10 +81,10 @@ header {
   /*Make it look good*/
 }
 
-#add-modal textarea {
-  resize: none;
-  width: 200px;
-  height: 100px;
+.delete-tag {
+  width: 10px;
+  height: 10px;
+  background-color: red;
 }
 
 #add-modal form input[type="submit"] {
