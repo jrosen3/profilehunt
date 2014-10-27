@@ -216,8 +216,8 @@ var app = angular.module('ProfileHunt',["angucomplete"])
         });
       }  
     }
-  // end of module  
-  }]);
+  }]); /* end of controller */ 
+/* var app */
 
 
 
