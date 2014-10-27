@@ -17,13 +17,11 @@ var app = angular.module('ProfileHunt',["angucomplete"])
         // results is an array of Parse.Object.
         for (i = 0; i < results.length; i++){
           var tag_name = results[i].attributes.tag_name; 
-          tag_name = tag_name.toLowerCase();
           $scope.tagList.push(tag_name);
           $scope.tags.push({"name": tag_name});
         }
         $scope.$apply();
       },
-
       error: function(error) {
         // error is an instance of Parse.Error.
       }
@@ -112,10 +110,12 @@ var app = angular.module('ProfileHunt',["angucomplete"])
     });
 
     $scope.$on('sendTagUnChecked', function(event, data){
-      if ($scope.tagList.indexOf(data) > -1) {
-        // console.log("this is a valid tag");
-        if($scope.choices.indexOf(data) == -1){
-          $scope.choices.push(data);
+      var temp_tagList = $scope.tagList.map(function(s){return s.toLowerCase()});
+      var temp_choices = $scope.choices.map(function(s){return s.toLowerCase()});
+      var temp_data = data.toLowerCase();
+      if (temp_tagList.indexOf(temp_data) > -1) {
+        if(temp_choices.indexOf(temp_data) == -1){
+          $scope.choices.push($scope.tagList[temp_tagList.indexOf(temp_data)]);
         } else {
           // console.log("this tag has already been added");
         }
@@ -135,12 +135,15 @@ var app = angular.module('ProfileHunt',["angucomplete"])
     $scope.submit = function(){
       var url = this.url;
       var des = this.description;
-      var tags = this.tags;
       var name = this.name;
       if (!currentUser) {
         alert("Please log in to add a profile. Please sign up");
       } else {
         var Profile = Parse.Object.extend("Profile");
+        var Creators = Parse.Object.extend("Creators");
+        var Endorsements = Parse.Object.extend("Endorsements");
+        var Likes = Parse.Object.extend("Likes");
+        var Tags = Parse.Object.extend("Tags");
         var query = new Parse.Query(Profile);
         query.equalTo("url", url);
         query.find({
@@ -160,25 +163,54 @@ var app = angular.module('ProfileHunt',["angucomplete"])
                 // console.log("bad description");
               } else if (des.length < 10) {
                 // console.log("add full description");
-              } else if (tags == null){
-                // console.log("bad tags");
-              } else if (tags.length < 10) {
+              } else if ($scope.choices.length < 1) {
                 // console.log("add more tags");
               } else {
-                // process tags
-
-
                 var profile = new Profile();
-                profile.save({"name":name, "url": url, "description": des}).then(function(object){
-                  $scope.name = null;
-                  $scope.url = null;
-                  $scope.description = null;
-                  $scope.tags = null;
-                  $scope.$apply();
-                });
+                var creators = new Creators();
+                var profileObject = null;
+                var creatorsObject = null;
 
-                // add everything new to proper table
-              }; 
+                profile.save({"name":name, "url":url, "description":des})
+                .then(function(profileObject) {
+                  // console.log("profile saved");
+                  return profileObject;
+                })
+                .then(function(profileObject) {
+                  // once profile is saved
+                  creators.save({"user":currentUser, "profile":profileObject, "date":Date()})
+                  .then(function(creatorsObject) {
+                    // console.log("creators saved");
+                    return creatorsObject;
+                  })
+                  .then(function(creatorsObject) {
+                    // once the creatos is saved
+                    $scope.choices.forEach(function(c) {
+                      var query = new Parse.Query(Tags);
+                      query.equalTo("tag_name", c);
+                      query.find({
+                        success: function(t) {
+                          // if the tag is found
+                          var endorsements = new Endorsements();
+                          endorsements.save({"profile":profileObject, "upvotes":1, "tag":t[0]});
+                          var likes = new Likes();
+                          likes.save({"profile":profileObject, "user":currentUser, "tag":t[0]});
+                        }
+                      });
+                    });
+
+                    console.log("you have added the profile")
+                    // pause for two seconds
+
+                    $scope.choices = [];
+                    $scope.name = null;
+                    $scope.url = null;
+                    $scope.description = null;
+                    $scope.$apply();
+                    $("#add-modal").trigger('closeModal');
+                  });
+                }); 
+              }
             }
           }
         });
@@ -186,6 +218,8 @@ var app = angular.module('ProfileHunt',["angucomplete"])
     }
   // end of module  
   }]);
+
+
 
 app.directive('backImg', function(){
   return function(scope, element, attrs){

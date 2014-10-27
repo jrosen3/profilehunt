@@ -180,7 +180,7 @@ angular.module('angucomplete', [] )
                         }, $scope.pause);
                     }
                 } else {
-                    if (event.which == 13) {
+                    if (event.which == 13 && $scope.currentIndex < 0) {
                         $scope.$emit('sendTagUnChecked', $scope.searchStr);
                         $scope.showDropdown = false;
                         $scope.searchStr = "";
