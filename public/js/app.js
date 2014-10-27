@@ -168,8 +168,6 @@ var app = angular.module('ProfileHunt',["angucomplete"])
               } else {
                 var profile = new Profile();
                 var creators = new Creators();
-                var profileObject = null;
-                var creatorsObject = null;
 
                 profile.save({"name":name, "url":url, "description":des})
                 .then(function(profileObject) {
