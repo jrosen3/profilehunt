@@ -14,12 +14,10 @@ var app = angular.module('ProfileHunt',["angucomplete"])
     var query = new Parse.Query(Tags);
     query.find({
       success: function(results) {
-        // results is an array of Parse.Object.
-        for (i = 0; i < results.length; i++){
-          var tag_name = results[i].attributes.tag_name; 
-          $scope.tagList.push(tag_name);
-          $scope.tags.push({"name": tag_name});
-        }
+        results.forEach(function(t){
+          $scope.tagList.push(t.attributes.tag_name);
+          $scope.tags.push({"name": t.attributes.tag_name});
+        })
         $scope.$apply();
       },
       error: function(error) {
@@ -58,8 +56,7 @@ var app = angular.module('ProfileHunt',["angucomplete"])
           }
         );
       } else {
-        // no one logged in
-        // console.log("nobody home");
+        // console.log("nobody is logged in");
       }
     };
 
@@ -68,9 +65,9 @@ var app = angular.module('ProfileHunt',["angucomplete"])
       Parse.FacebookUtils.logIn(null, {
         success: function(user) {
           if (!user.existed()) {
-            // alert("User signed up and logged in through Facebook!");
+            console.log("user signed up and logged in through Facebook");
           } else {
-            // alert("User logged in through Facebook!");
+            console.log("user logged in through Facebook");
           }
           //update current user
           currentUser = Parse.User.current();
@@ -94,8 +91,8 @@ var app = angular.module('ProfileHunt',["angucomplete"])
         );
         },
         error: function(user, error) {
-          // alert("User cancelled the Facebook login or did not fully authorize.");
-          }
+          console.log("user cancelled the Facebook login or did not fully authorize");
+        }
       });
     }
 
@@ -129,8 +126,31 @@ var app = angular.module('ProfileHunt',["angucomplete"])
       if (index > -1) {
         $scope.choices.splice(index, 1);
       }
-      // console.log($scope.choices);
+      console.log($scope.choices);
     };
+
+    $scope.submitError = null;
+    $scope.priority = null;
+    function alertSubmitError(text, priority, time){
+      console.log("A");
+      $scope.submitError = text;
+      $scope.priority = priority;
+      $scope.$apply();
+      
+      var delay = function(millis) {
+        var promise = new Parse.Promise();
+        setTimeout(function() {
+          promise.resolve();
+        }, millis);
+        return promise;
+      };
+
+      delay(time).then(function() {
+        $scope.submitError = null;
+        $scope.$apply();
+      });
+    };
+
 
     $scope.submit = function(){
       var url = this.url;
@@ -150,21 +170,32 @@ var app = angular.module('ProfileHunt',["angucomplete"])
           success: function(profiles){
             if(profiles.length > 0){
               console.log("it exists");
+              alertSubmitError("This profile has already been added.", "p0", 5000);
             } else {
               if (name == null) {
                 // console.log("bad name");
+                alertSubmitError("Please enter a valid name", "p0", 5000);
               } else if (name.length < 1) {
                 // console.log("add full name");
+                alertSubmitError("Please enter a valid name", "p0", 5000);
               } else if (url == null) {
                 // console.log("bad url");
+                alertSubmitError("Please enter a valid url", "p0", 5000);
               } else if (url.length < 10) {
                 // console.log("add full url");
+                alertSubmitError("Please enter a valid url", "p0", 5000);
               } else if (des == null) {
                 // console.log("bad description");
+                alertSubmitError("Please enter a valid description", "p0", 5000);
               } else if (des.length < 10) {
                 // console.log("add full description");
+                alertSubmitError("Please enter a valid description", "p0", 5000);
+              } else if (des.lenght > 100) {
+                // console.log("keep the description short");
+                alertSubmitError("Please keep the description brief, less than 100 caracters", "p0", 5000);
               } else if ($scope.choices.length < 1) {
                 // console.log("add more tags");
+                alertSubmitError("Please enter at least two tags", "p0", 5000);
               } else {
                 var profile = new Profile();
                 var creators = new Creators();
@@ -197,8 +228,8 @@ var app = angular.module('ProfileHunt',["angucomplete"])
                       });
                     });
 
-                    console.log("you have added the profile")
-                    // pause for two seconds
+                    // console.log("you have added the profile")
+                    alertSubmitError("You successfully added the profile", "p2", 5000);
 
                     $scope.choices = [];
                     $scope.name = null;

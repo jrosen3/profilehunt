@@ -39,14 +39,21 @@
     </div>
     
     <div id="add-modal">
-      <form >
+      <div id="add-profile-title" ng-hide="submitError">
+        <h2>Post a new profile</h2>
+        <p>Find something new and interesting? Surface it!</p>
+      </div>
+      <div id="add-profile-error" ng-class="priority" ng-show="submitError">
+        <p>{{submitError}}</p>
+      </div>
+      <form>
         <input name="name" ng-model="name" type="text" placeholder="Han Solo">
         <input name="url" ng-model="url" type="url" placeholder="https://www.flickr.com/photos/HanSolo">
         <input name="description" ng-model="description" type="text" placeholder="Great intergalactic photography">
         <div class="form-group" data-ng-repeat="choice in choices">
-          <div>
+          <div class="tags">
             <div class="delete-tag" ng-click="deleteTag(choice)"></div>
-            {{choice}}
+            <p>{{choice}}</p>
           </div>
         </div>
         <angucomplete id="ex1"
@@ -56,11 +63,11 @@
           localdata="tags"
           searchfields="name"
           titlefield="name"
-          minlength="1"
+          minlength="2"
           inputclass="form-control form-control-small"
           ></angucomplete>
-        <input type="button" value="Submit" ng-click="submit()">
-        <input type="button" value="Cancel" onclick="close_modal()">
+        <a class="btn" value="Submit" ng-click="submit()">Submit</a>
+        <a class="btn" onclick="close_modal()">Cancel</a>
       </form>
     </div>
   </body>

@@ -199,6 +199,7 @@ angular.module('angucomplete', [] )
                 $scope.showDropdown = false;
                 // console.log(result.title);
                 $scope.$emit('sendTagChecked', result.title);
+                $scope.searchStr = "";
                 $scope.results = [];
                 //$scope.$apply();
             }
