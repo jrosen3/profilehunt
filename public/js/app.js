@@ -129,7 +129,7 @@ var app = angular.module('ProfileHunt',["angucomplete"])
       if (index > -1) {
         $scope.choices.splice(index, 1);
       }
-      console.log($scope.choices);
+      // console.log($scope.choices);
     };
 
     $scope.submit = function(){
