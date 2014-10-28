@@ -23,6 +23,7 @@ var on_modal_open = function() {
 
 var on_modal_close = function() {
   $("#add-modal form").trigger("reset");
+  // $scope.choices = [];
 }
 
 function close_modal() {

@@ -101,8 +101,10 @@ var app = angular.module('ProfileHunt',["angucomplete"])
     $scope.$on('sendTagChecked', function(event, data){
       if ($scope.choices.indexOf(data) == -1) {
         $scope.choices.push(data);
+        $scope.$apply();
       } else {
         // console.log('this tag has already been added');
+        alertSubmitError("You already added this tag.", "p1", 5000);
       }
     });
 
@@ -113,11 +115,14 @@ var app = angular.module('ProfileHunt',["angucomplete"])
       if (temp_tagList.indexOf(temp_data) > -1) {
         if(temp_choices.indexOf(temp_data) == -1){
           $scope.choices.push($scope.tagList[temp_tagList.indexOf(temp_data)]);
+          $scope.$apply();
         } else {
           // console.log("this tag has already been added");
+          alertSubmitError("You already added this tag.", "p1", 5000);
         }
       } else {
         // console.log('this is not a valid tag');
+        alertSubmitError("This is not a valid tag.", "p0", 5000);
       }
     });
 
@@ -125,14 +130,14 @@ var app = angular.module('ProfileHunt',["angucomplete"])
       var index = $scope.choices.indexOf(tag);
       if (index > -1) {
         $scope.choices.splice(index, 1);
+        $scope.$apply();
       }
-      console.log($scope.choices);
+      // console.log($scope.choices);
     };
 
     $scope.submitError = null;
     $scope.priority = null;
     function alertSubmitError(text, priority, time){
-      console.log("A");
       $scope.submitError = text;
       $scope.priority = priority;
       $scope.$apply();
@@ -193,7 +198,7 @@ var app = angular.module('ProfileHunt',["angucomplete"])
               } else if (des.lenght > 100) {
                 // console.log("keep the description short");
                 alertSubmitError("Please keep the description brief, less than 100 caracters", "p0", 5000);
-              } else if ($scope.choices.length < 1) {
+              } else if ($scope.choices.length < 2) {
                 // console.log("add more tags");
                 alertSubmitError("Please enter at least two tags", "p0", 5000);
               } else {

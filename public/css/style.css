@@ -64,14 +64,24 @@ header {
 
 #add-modal {
   width: 386px;
-  min-height: 386px;
+  /*min-height: 30px;*/
   background-color: pink;
   border-radius: 5px;
+  padding-bottom: 15px;
+  /*position: relative;*/
 }
 
-#add-profile-title, #add-profile-error {
+#add-profile-title {
   width: 90%;
   height: 50px;
+  margin: 20px auto;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#add-profile-error {
+  width: 90%;
+  height: 46px;
   margin: 20px auto;
   border-radius: 5px;
   text-align: center;
@@ -82,7 +92,7 @@ header {
 }
 
 #add-profile-error {
-  border: 3px solid;
+  border: 2px solid;
 }
 
 .p0 {
@@ -93,6 +103,8 @@ header {
 
 .p1 {
   border-color: yellow;
+  background-color: lightyellow;
+  color: black;
 }
 
 .p2 {
@@ -101,10 +113,14 @@ header {
   color: green;
 }
 
+textarea:focus, input:focus{
+    outline: 0;
+}
+
 #add-modal form {
   /*Make it look good*/
   width: 75%;
-  margin: 0px auto 100px auto;
+  margin: 0px auto;
 }
 
 #add-modal form input[name="name"] {
@@ -124,7 +140,14 @@ header {
   /*Make it look good*/
   width: 100%;
   height: 25px;
-  margin-bottom: 7px;
+  margin-bottom: 10px;
+}
+
+#all-tags {
+  width: 75%;
+  min-height: 20px;
+  margin: 0px auto;
+  margin-bottom: 10px;
 }
 
 .tags {  
@@ -138,7 +161,9 @@ header {
 
 .tags p {
   font-size: 50%;
-  padding: 6px 5px 6px 0px;
+  line-height: 20px;
+  margin-right: 5px;
+  /*padding: 6px 5px 6px 0px;*/
   float: right;
 }
 
@@ -148,23 +173,44 @@ header {
   margin: 5px;
   background-color: orange;
   float: left;
-  z-index: 9999;
+  
+  /*background-image: url("../img/x.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;*/
 }
 
+#btn-holder {
+  clear: both;
+  width: 213px;
+  height: 32px;
+  margin: 30px auto 0px auto;
+}
 .btn {
-  /*Make it look good*/
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  float: left;
+
   font-size: 75%;
-  color: #ffffff;
-  background-color: #3498db;
-  padding: 10px 30px;
+
   border: 1px solid black;
   border-radius: 3px;
-  text-decoration: none;
-  margin: 0px auto;
 }
 
-/*#add-modal form input[type="button"] {
-}*/
+.submit {
+  width: 133px;
+  margin: 0px 5px 0px 0px;
+  color: #ffffff;
+  background-color: #3498db;
+}
+
+.cancle {
+  width: 66px;
+  margin: 0px 0px 0px 5px;
+  color: #ffffff;
+  background-color: red;
+}
 
 #content {
   width: 580px;
