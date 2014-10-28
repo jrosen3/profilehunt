@@ -5,6 +5,11 @@ var app = angular.module('ProfileHunt',["angucomplete"])
 
     $scope.firstname = null;
     $scope.profilepic = null;
+
+    $scope.$on('tagID', function(event, data) {
+      $scope.$broadcast('tagIDs', data);
+    });
+    
     
     var currentUser = Parse.User.current();
     window.fbAsyncInit = function() {
@@ -97,6 +102,7 @@ app.controller('modal', ['$scope', function ($scope) {
   //get tags from database
   $scope.tags = [];
   $scope.tagList = [];
+  $scope.tagIDs = {};
   var Tags = Parse.Object.extend("Tags");
   var query = new Parse.Query(Tags);
   query.find({
@@ -104,6 +110,8 @@ app.controller('modal', ['$scope', function ($scope) {
       results.forEach(function(t){
         $scope.tagList.push(t.attributes.tag_name);
         $scope.tags.push({"name": t.attributes.tag_name});
+        $scope.tagIDs[t.id] = t.attributes.tag_name
+        $scope.$emit('tagID', $scope.tagIDs);
       })
       $scope.$apply();
     },
@@ -268,17 +276,55 @@ app.controller('modal', ['$scope', function ($scope) {
 app.controller('cards', ['$scope', function ($scope) {
   Parse.initialize("n8jGCT80CjVisMzAjmIcf7AqyFiYVa9kPuZ6HJDk", "461lPAhmknRzQbrlxDHnKax15eC7x30oJjlG11Eb");
   var currentUser = null;
-  $scope.$on('fbUserB', function(event, data){currentUser = data;});
+  $scope.$on('fbUserB', function(event, data){
+    currentUser = data;
+  });
+  var tagIDs = null;
+  $scope.$on('tagIDs', function(event, data){tagIDs = data;});
+
+  $scope.allCards = [];
 
   var Profile = Parse.Object.extend("Profile");
   var query = new Parse.Query(Profile);
   query.descending("createdAt");
   query.limit(2);
   query.find().then(function(profiles){
+    // console.log(profiles);
     return profiles.map(function(profile){return {'name':profile.attributes.name, 'id':profile.id, 'url':profile.attributes.url, 'des':profile.attributes.description, 'tags':[]}})
   }).then(function(profiles){
-    console.log(profiles);
+    // console.log(profiles);
+    myf(profiles);
   });
+
+  function myf(profiles) {
+    // console.log(profiles);
+    var Endorsements = Parse.Object.extend("Endorsements");
+    var Profile = Parse.Object.extend("Profile");
+    profile = profiles.forEach(function(profile) {
+      var lit = null;
+      var searchprofile = new Profile();
+      searchprofile.id = profile.id;
+      var query = new Parse.Query(Endorsements);
+      query.descending("upvotes");
+      query.equalTo("profile", searchprofile);
+      query.find().then(function(results){
+        // console.log(results);
+        return results.map(function(result){return [result.attributes.tag.id, result.attributes.upvotes]})
+      }).then(function(results){
+        profile.tags = results
+        // $scope.allCards.push(profile);
+        mylf(profile);
+      });
+    });
+  };
+
+  function mylf(profile) {
+    profile.tags = profile.tags.map(function(tag) {
+      return [tagIDs[tag[0]], tag[1], false];
+    });
+    $scope.allCards.push(profile);
+    console.log($scope.allCards);
+  };
 
   // var Profile = Parse.Object.extend("Profile");
   // var query = new Parse.Query(Profile);
