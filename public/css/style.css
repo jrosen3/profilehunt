@@ -230,6 +230,13 @@ textarea:focus, input:focus{
   background-color: pink;
 }
 
+.cards .endorsed{
+  color: #fff;
+}
+.cards .not_endorsed{
+  color: blue;
+}
+
 #padding {
   width: 100%;
   height: 50px; /*height of header to offset */

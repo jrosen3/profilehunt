@@ -34,9 +34,12 @@
     
     <div id="content" ng-controller="cards">
       <div class="cards" ng-repeat="card in allCards">
-        <div>{{card.id}}{{card.name}}{{card.url}}{{card.des}}{{card.tags}}
-          <div ng-class="liked(card.tags[0],card.id)"></div>
+        <h1><a href="{{card.url}}">{{card.name}}<a></h1>
+        <h2>{{card.des}}</h2>
+        <div ng-repeat = "tag in card.tags">
+          <div ng-class="liked(tag[0],card.id)">{{tag[1]}}</div>
         </div>
+      </div>
       </div>
       <div id="padding"></div>
     </div>

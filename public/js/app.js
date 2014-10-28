@@ -287,7 +287,7 @@ app.controller('cards', ['$scope', function ($scope) {
   var Profile = Parse.Object.extend("Profile");
   var query = new Parse.Query(Profile);
   query.descending("createdAt");
-  query.limit(2);
+  query.limit(10);
   query.find().then(function(profiles){
     // console.log(profiles);
     return profiles.map(function(profile){return {'name':profile.attributes.name, 'id':profile.id, 'url':profile.attributes.url, 'des':profile.attributes.description, 'tags':[]}})
@@ -386,9 +386,25 @@ app.controller('cards', ['$scope', function ($scope) {
   //     });
   //   });
   // }
-
 $scope.liked = function(tag, profile){
-  console.log(tag, profile);
+  if(currentUser){
+    var Likes = Parse.Object.extend("Likes");
+    var Likes = Parse.Object.extend("Likes");
+    var query = new Parse.Query(Likes);
+    query.equalTo("user", currentUser);
+    query:.find({
+      success: function(t){
+        // console.log(t);
+      },
+      error: function(error){
+        console.log("tag search failed");
+      }
+    });
+    //return "endorsed"
+  } else{
+    // console.log("user is not logged in, cannot display endorsement data");
+     //return "not endorsed"
+  }
 };
 
 }]); /* end cards conroller*/
