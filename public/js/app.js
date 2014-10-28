@@ -320,7 +320,7 @@ app.controller('cards', ['$scope', function ($scope) {
 
   function mylf(profile) {
     profile.tags = profile.tags.map(function(tag) {
-      return [tagIDs[tag[0]], tag[1], false];
+      return [tag[0], tagIDs[tag[0]], tag[1]];
     });
     $scope.allCards.push(profile);
     console.log($scope.allCards);
