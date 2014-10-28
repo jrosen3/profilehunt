@@ -33,9 +33,11 @@
     </header>
     
     <div id="content" ng-controller="cards">
-      <div class="cards"></div>
-      <div class="cards"></div>
-      <div class="cards"></div>
+      <div class="cards" ng-repeat="card in allCards">
+        <div>{{card.id}}{{card.name}}{{card.url}}{{card.des}}{{card.tags}}
+          <div ng-class="liked(card.tags[0],card.id)"></div>
+        </div>
+      </div>
       <div id="padding"></div>
     </div>
     

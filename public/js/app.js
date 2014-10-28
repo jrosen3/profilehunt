@@ -324,6 +324,7 @@ app.controller('cards', ['$scope', function ($scope) {
     });
     $scope.allCards.push(profile);
     console.log($scope.allCards);
+    $scope.$apply();
   };
 
   // var Profile = Parse.Object.extend("Profile");
@@ -386,7 +387,9 @@ app.controller('cards', ['$scope', function ($scope) {
   //   });
   // }
 
-
+$scope.liked = function(tag, profile){
+  console.log(tag, profile);
+};
 
 }]); /* end cards conroller*/
 
