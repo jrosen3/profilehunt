@@ -24,21 +24,22 @@
     <link rel="stylesheet" href="css/angucomplete.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
-  <body ng-controller="page">
+  <body ng-controller="header">
     <header>
       <div id="logo"></div>
       <div id="login-button" ng-hide="firstname" ng-click="login($event)"></div>
       <div id="login-pic" ng-show="firstname" back-img="{{profilepic}}"></div>
       <div id="add-profile-button"></div>
     </header>
-    <div id="content">
+    
+    <div id="content" ng-controller="cards">
       <div class="cards"></div>
       <div class="cards"></div>
       <div class="cards"></div>
       <div id="padding"></div>
     </div>
     
-    <div id="add-modal">
+    <div id="add-modal" ng-controller="modal"><!-- start modal -->
       <div id="add-profile-title" ng-hide="submitError">
         <h2>Post a new profile</h2>
         <p>Find something new and interesting? Surface it!</p>
@@ -73,6 +74,7 @@
         <div class="btn submit" ng-click="submit()">Submit</div>
         <div class="btn cancle" onclick="close_modal()">Cancel</div>
       </div>
-    </div>
+    </div><!-- end modal -->
+
   </body>
 </html>
