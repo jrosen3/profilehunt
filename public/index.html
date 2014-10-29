@@ -38,7 +38,7 @@
         <h2>{{card.des}}</h2>
         <!-- <div ng-repeat = "tag in card.tags"> -->
           <!-- <div ng-class="liked(tag[0],card.id)">{{tag[1]}}</div> -->
-          <div ng-class="firstname ? liked(card.tags[0][0], card.id) : 'false'"></div>
+          <div ng-class="firstname ? (liked(card.tags[0][0], card.id) ? 'true' : 'false') : 'false'"></div>
         <!-- </div> -->
       </div>
       <!-- <div id="padding"></div> -->

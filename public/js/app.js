@@ -348,6 +348,7 @@ app.controller('cards', ['$scope', function ($scope) {
     //   // console.log("user is not logged in, cannot display endorsement data");
     //    //return "not endorsed"
     // }
+    return "true";
   };
 
 }]); /* end cards conroller*/
