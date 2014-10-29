@@ -339,7 +339,6 @@ app.controller('cards', ['$scope', function ($scope) {
     });
   };
 
-
   function checkTagLike(tag, profile, cb){
     // console.log(tag, profile);
     var Likes = Parse.Object.extend("Likes");
