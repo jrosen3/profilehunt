@@ -22,14 +22,12 @@ var app = angular.module('ProfileHunt',["angucomplete"])
       // once FB api is loaded
       if (currentUser) {
         // do stuff with the user
-        $scope.$broadcast('fbUserB', currentUser);
-        // $scope.$emit('fbUser', currentUser);
-
         FB.api(
           "/me",
           function (response) {
             if (response && !response.error) {
               $scope.firstname = response.first_name;
+              $scope.$broadcast('fbUserB', [currentUser, $scope.firstname]);
               $scope.$apply();
             }
           }
@@ -59,13 +57,12 @@ var app = angular.module('ProfileHunt',["angucomplete"])
           }
           //update current user
           currentUser = Parse.User.current();
-          $scope.$broadcast('fbUserB', currentUser);
-          // $scope.$emit('fbUser', currentUser);
           FB.api(
             "/me",
             function (response) {
               if (response && !response.error) {
                 $scope.firstname = response.first_name;
+                $scope.$broadcast('fbUserB', [currentUser, $scope.firstname]);
                 $scope.$apply();
               }
             }
@@ -93,10 +90,11 @@ app.controller('modal', ['$scope', function ($scope) {
   Parse.initialize("n8jGCT80CjVisMzAjmIcf7AqyFiYVa9kPuZ6HJDk", "461lPAhmknRzQbrlxDHnKax15eC7x30oJjlG11Eb");
 
   var currentUser = null;
+  $scope.firstname = null;
   $scope.$on('fbUserB', function(event, data){
     // console.log(data);
-    // console.log("page");
-    currentUser = data;
+    currentUser = data[0];
+    $scope.firstname = data[1];
   });
 
   //get tags from database
@@ -276,8 +274,11 @@ app.controller('modal', ['$scope', function ($scope) {
 app.controller('cards', ['$scope', function ($scope) {
   Parse.initialize("n8jGCT80CjVisMzAjmIcf7AqyFiYVa9kPuZ6HJDk", "461lPAhmknRzQbrlxDHnKax15eC7x30oJjlG11Eb");
   var currentUser = null;
+  $scope.firstname = null;
   $scope.$on('fbUserB', function(event, data){
-    currentUser = data;
+    // console.log(data);
+    currentUser = data[0];
+    $scope.firstname = data[1];
   });
   var tagIDs = null;
   $scope.$on('tagIDs', function(event, data){tagIDs = data;});
@@ -327,89 +328,27 @@ app.controller('cards', ['$scope', function ($scope) {
     $scope.$apply();
   };
 
-  // var Profile = Parse.Object.extend("Profile");
-  // var query = new Parse.Query(Profile);
-  // query.descending("createdAt");
-  // query.limit(2);
-  // query.find({
-  //   success: function(profiles) {
-  //     // console.log(profiles);
-  //     IHaveProfiles(profiles);
-  //   },
-  //   error: function(error){
-  //     console.log('Parse is down');
-  //   }
-  // });
-
-  // function IHaveProfiles(profiles) {
-  //   var Endorsements = Parse.Object.extend("Endorsements");
-  //   profiles.forEach(function(profile){
-  //     // console.log(profile.attributes.name);
-  //     var query = new Parse.Query(Endorsements);
-  //     query.descending("upvotes");
-  //     query.equalTo("profile", profile);
-  //     query.find({
-  //       success: function(tags) {
-  //         // console.log(tags);
-  //         IHaveTagIDs(tags, profile);
-  //       },
-  //       error: function(error) {
-  //         console.log('Tags is down');
-  //       }
-  //     });
-  //   });
-  // };
-  // var Global = {};
-  // $scope.masterCards = [];
-  // var updateGlobal = function() {
-  //   for (var key in Gloabl) {
-  //     $scope.masterCards = 
-  //   }
-  // }
-  // function IHaveTagIDs(tags, profile){
-  //   var Tags = Parse.Object.extend("Tags");
-  //   tags.forEach(function(tag){
-  //     var query = new Parse.Query(Tags);
-  //     query.equalTo("objectId", tag.attributes.tag.id);
-  //     query.find({
-  //       success: function(tag) {
-  //         if (Global[profile.id] != null) {
-  //           Global[profile.id].push(tag[0].attributes.tag_name);
-  //         } else {
-  //           Global[profile.id] = [tag[0].attributes.tag_name];
-  //         }
-  //         updateGlobal;
-  //       },
-  //       error: function(error) {
-  //         console.log('Tag is down');
-  //       }
-  //     });
-  //   });
-  // }
-
-$scope.firstname = true;
-
-$scope.liked = function(tag, profile){
-  console.log(tag, profile);
-  // if(currentUser){
-  //   var Likes = Parse.Object.extend("Likes");
-  //   var Likes = Parse.Object.extend("Likes");
-  //   var query = new Parse.Query(Likes);
-  //   query.equalTo("user", currentUser);
-  //   query:.find({
-  //     success: function(t){
-  //       // console.log(t);
-  //     },
-  //     error: function(error){
-  //       console.log("tag search failed");
-  //     }
-  //   });
-  //   //return "endorsed"
-  // } else{
-  //   // console.log("user is not logged in, cannot display endorsement data");
-  //    //return "not endorsed"
-  // }
-};
+  $scope.liked = function(tag, profile){
+    console.log(tag, profile);
+    // if(currentUser){
+    //   var Likes = Parse.Object.extend("Likes");
+    //   var Likes = Parse.Object.extend("Likes");
+    //   var query = new Parse.Query(Likes);
+    //   query.equalTo("user", currentUser);
+    //   query:.find({
+    //     success: function(t){
+    //       // console.log(t);
+    //     },
+    //     error: function(error){
+    //       console.log("tag search failed");
+    //     }
+    //   });
+    //   //return "endorsed"
+    // } else{
+    //   // console.log("user is not logged in, cannot display endorsement data");
+    //    //return "not endorsed"
+    // }
+  };
 
 }]); /* end cards conroller*/
 
