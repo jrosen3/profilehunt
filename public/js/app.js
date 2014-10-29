@@ -302,7 +302,6 @@ app.controller('cards', ['$scope', function ($scope) {
     var Endorsements = Parse.Object.extend("Endorsements");
     var Profile = Parse.Object.extend("Profile");
     profile = profiles.forEach(function(profile) {
-      var lit = null;
       var searchprofile = new Profile();
       searchprofile.id = profile.id;
       var query = new Parse.Query(Endorsements);
@@ -328,27 +327,41 @@ app.controller('cards', ['$scope', function ($scope) {
     $scope.$apply();
   };
 
-  $scope.liked = function(tag, profile){
-    console.log(tag, profile);
-    // if(currentUser){
-    //   var Likes = Parse.Object.extend("Likes");
-    //   var Likes = Parse.Object.extend("Likes");
-    //   var query = new Parse.Query(Likes);
-    //   query.equalTo("user", currentUser);
-    //   query:.find({
-    //     success: function(t){
-    //       // console.log(t);
-    //     },
-    //     error: function(error){
-    //       console.log("tag search failed");
-    //     }
-    //   });
-    //   //return "endorsed"
-    // } else{
-    //   // console.log("user is not logged in, cannot display endorsement data");
-    //    //return "not endorsed"
-    // }
-    return "true";
+
+  $scope.liked = function(tag, profile) {
+    checkTagLike(tag, profile, function(r){
+      var id = '#' + tag + profile;
+      if (r == 1) {
+        $(id).addClass("liked-tag");
+      } else {
+        $(id).addClass("not-liked-tag");
+      };
+    });
+  };
+
+
+  function checkTagLike(tag, profile, cb){
+    // console.log(tag, profile);
+    var Likes = Parse.Object.extend("Likes");
+    var Tags = Parse.Object.extend("Tags");
+    var Profiles = Parse.Object.extend("Profiles");
+
+    var searchprofile = new Profile();
+    searchprofile.id = profile;
+
+    var searchtag = new Tags();
+    searchtag.id = tag;
+
+    var query = new Parse.Query(Likes);
+    query.equalTo("user", currentUser);
+    query.equalTo("profile", searchprofile);
+    query.equalTo("tag", searchtag);
+
+    query.count().then(function(results){
+      return results
+    }).then(function(results){
+      cb(results);
+    });
   };
 
 }]); /* end cards conroller*/

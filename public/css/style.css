@@ -230,10 +230,10 @@ textarea:focus, input:focus{
   background-color: pink;
 }
 
-.cards .endorsed{
+.cards .liked-tag{
   color: #fff;
 }
-.cards .not_endorsed{
+.cards .not-liked-tag, .not-logged-in{
   color: blue;
 }
 
