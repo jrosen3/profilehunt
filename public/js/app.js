@@ -323,7 +323,7 @@ app.controller('cards', ['$scope', function ($scope) {
       return [tag[0], tagIDs[tag[0]], tag[1]];
     });
     $scope.allCards.push(profile);
-    console.log($scope.allCards);
+    // console.log($scope.allCards);
     $scope.$apply();
   };
 
@@ -386,25 +386,29 @@ app.controller('cards', ['$scope', function ($scope) {
   //     });
   //   });
   // }
+
+$scope.firstname = true;
+
 $scope.liked = function(tag, profile){
-  if(currentUser){
-    var Likes = Parse.Object.extend("Likes");
-    var Likes = Parse.Object.extend("Likes");
-    var query = new Parse.Query(Likes);
-    query.equalTo("user", currentUser);
-    query:.find({
-      success: function(t){
-        // console.log(t);
-      },
-      error: function(error){
-        console.log("tag search failed");
-      }
-    });
-    //return "endorsed"
-  } else{
-    // console.log("user is not logged in, cannot display endorsement data");
-     //return "not endorsed"
-  }
+  console.log(tag, profile);
+  // if(currentUser){
+  //   var Likes = Parse.Object.extend("Likes");
+  //   var Likes = Parse.Object.extend("Likes");
+  //   var query = new Parse.Query(Likes);
+  //   query.equalTo("user", currentUser);
+  //   query:.find({
+  //     success: function(t){
+  //       // console.log(t);
+  //     },
+  //     error: function(error){
+  //       console.log("tag search failed");
+  //     }
+  //   });
+  //   //return "endorsed"
+  // } else{
+  //   // console.log("user is not logged in, cannot display endorsement data");
+  //    //return "not endorsed"
+  // }
 };
 
 }]); /* end cards conroller*/

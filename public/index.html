@@ -34,14 +34,14 @@
     
     <div id="content" ng-controller="cards">
       <div class="cards" ng-repeat="card in allCards">
-        <h1><a href="{{card.url}}">{{card.name}}<a></h1>
+        <h1><a href="{{card.url}}">{{card.name}}</a></h1>
         <h2>{{card.des}}</h2>
-        <div ng-repeat = "tag in card.tags">
-          <div ng-class="liked(tag[0],card.id)">{{tag[1]}}</div>
-        </div>
+        <!-- <div ng-repeat = "tag in card.tags"> -->
+          <!-- <div ng-class="liked(tag[0],card.id)">{{tag[1]}}</div> -->
+          <div ng-class="firstname ? liked(card.tags[0][0], card.id) : 'false'"></div>
+        <!-- </div> -->
       </div>
-      </div>
-      <div id="padding"></div>
+      <!-- <div id="padding"></div> -->
     </div>
     
     <div id="add-modal" ng-controller="modal"><!-- start modal -->
