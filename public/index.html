@@ -13,11 +13,13 @@
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     
     <!-- JavaScript -->
+    <script src="js/main.js"></script>
     <script src="js/facebook.js"></script>
-    <script src="js/jquery.easyModal.js"></script>
-    <script src="js/modal.js"></script>
+    <!-- <script src="js/jquery.easyModal.js"></script> -->
+    <!-- <script src="js/modal.js"></script> -->
     <script src="js/app.js"></script>
     <script src="js/angucomplete.js"></script>
+
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/reset.css">
@@ -26,63 +28,75 @@
   </head>
   <body ng-controller="header">
     <header>
-      <div id="logo"></div>
-      <div id="login-button" ng-hide="firstname" ng-click="login($event)"></div>
-      <div id="login-pic" ng-show="firstname" back-img="{{profilepic}}"></div>
-      <div id="add-profile-button"></div>
+      <div id="header-content">
+        <div id="logo"></div>
+        <div id="login-button" ng-hide="firstname" ng-click="login($event)"></div>
+        <div id="login-pic" ng-show="firstname" back-img="{{profilepic}}"></div>
+        <!-- <div id="add-profile-button"></div> -->
+      </div>
     </header>
-    
-    <div id="content" ng-controller="cards">
-      <div class="cards" ng-repeat="card in allCards">
-        <div class="cardLogo"></div>
-        <div class = "cardHeader">
-          <h1><a href="{{card.url}}">{{card.name}}</a></h1>
-          <h2>{{card.des}}</h2>
+    <div id="buffer"></div>
+    <div id="all-content">
+      <div id="add-modal" ng-controller="modal"><!-- start modal -->
+        <div id="surface">Surface</div>
+        <form>
+          <input name="name" ng-model="name" type="text" placeholder="Han Solo">
+          <input name="url" ng-model="url" type="url" placeholder="https://www.flickr.com/photos/HanSolo">
+          <input name="description" ng-model="description" type="text" placeholder="Great intergalactic photography">
+          <angucomplete id="ex1"
+            placeholder="Select endorsements"
+            pause="100"
+            selectedobject="selectedTag"
+            localdata="tags"
+            searchfields="name"
+            titlefield="name"
+            minlength="1"
+            inputclass="form-control form-control-small">
+          </angucomplete>
+        </form>
+        
+        <div id="all-tags" ng-hide="submitError">
+          <div class="form-group" data-ng-repeat="choice in choices">
+            <div class="tags">
+              <div class="delete-tag" ng-click="deleteTag(choice)"></div>
+              <p>{{choice}}</p>
+            </div>
+          </div>
         </div>
-        <div class = "cardContent"></div>
-        <div ng-repeat = "tag in card.tags" class = "cardTag">
-          <div ng-class="firstname ? (liked(tag[0], card.id) ? '' : '') : 'not-logged-in'" ng-attr-id="{{tag[0] + card.id}}">{{tag[1]}}</div>
+
+        <div id="add-profile-error" ng-class="priority" ng-show="submitError">
+          <p>{{submitError}}</p>
         </div>
-      </div>
-      <!-- <div id="padding"></div> -->
-    </div>
-    
-    <div id="add-modal" ng-controller="modal"><!-- start modal -->
-      <div id="add-profile-title" ng-hide="submitError">
-        <h2>Post a new profile</h2>
-        <p>Find something new and interesting? Surface it!</p>
-      </div>
-      <div id="add-profile-error" ng-class="priority" ng-show="submitError">
-        <p>{{submitError}}</p>
-      </div>
-      <form>
-        <input name="name" ng-model="name" type="text" placeholder="Han Solo">
-        <input name="url" ng-model="url" type="url" placeholder="https://www.flickr.com/photos/HanSolo">
-        <input name="description" ng-model="description" type="text" placeholder="Great intergalactic photography">
-        <angucomplete id="ex1"
-          placeholder="Select endorsements"
-          pause="100"
-          selectedobject="selectedTag"
-          localdata="tags"
-          searchfields="name"
-          titlefield="name"
-          minlength="1"
-          inputclass="form-control form-control-small">
-        </angucomplete>
-      </form>
-      <div id="all-tags" ng-hide="choices">
-        <div class="form-group" data-ng-repeat="choice in choices">
-          <div class="tags">
-            <div class="delete-tag" ng-click="deleteTag(choice)"></div>
-            <p>{{choice}}</p>
+
+        <div id="btn-holder">
+          <div class="btn submit" ng-click="submit()">Surface it!</div>
+          <div class="btn cancel" onclick="close_modal()">Clear</div>
+        </div>
+      </div><!-- end modal -->
+
+      <div id="content" ng-controller="cards">
+        <div id="profiles">Profiles</div>
+        <div id="allCards">
+          <div class="cards" ng-repeat="card in allCards">
+            <div class="cardLogo"></div>
+            <div class="cardHeader">
+              <h1><a href="{{card.url}}">{{card.name}}</a></h1>
+              <h2>{{card.des}}</h2>
+            </div>
+            <div class="cardContent"></div>
+            <div class="allTags">
+              <div ng-repeat = "tag in card.tags" class="cardTag">
+                <div ng-class="firstname ? (liked(tag[0], card.id) ? '' : '') : 'not-logged-in'" ng-attr-id="{{tag[0] + card.id}}">{{tag[1]}}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div id="btn-holder">
-        <div class="btn submit" ng-click="submit()">Submit</div>
-        <div class="btn cancel" onclick="close_modal()">Cancel</div>
-      </div>
-    </div><!-- end modal -->
 
+      <div id="activity-feed">
+        <div id="activity">Activity</div>
+        <div id="activity-content"></div>
+      </div>
+    </div>
   </body>
 </html>

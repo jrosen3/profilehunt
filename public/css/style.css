@@ -1,19 +1,32 @@
-body {
-  font-family: helvetica, arial, sans-serif;
+/*::-webkit-scrollbar { 
+  display: none; 
+}*/
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
-::-webkit-scrollbar { 
-    display: none; 
+body {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  font-family: helvetica, arial, sans-serif;
 }
 
 header {
   width: 100%;
   height: 50px;
-  margin: 0px 0px 0px 0px; /* 1/2 of width*/
-  top: 0px;
- /* left: 50%;*/
   position: fixed;
+  top: 0px;
+  margin: 0px 0px 10px 0px;
   background-color: green;
+}
+
+#header-content {
+  max-width: 920px;
+  margin: 0px auto;
 }
 
 #logo {
@@ -31,7 +44,8 @@ header {
   float: right;
   margin-top: 10px;
   margin-bottom: 10px;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
+  background-color: yellow;
   border-radius: 5px;
 }
 
@@ -53,22 +67,48 @@ header {
   background-position: center;
 }
 
-#add-profile-button {
+/*#add-profile-button {
   margin-right: 5px;
   margin-left: 0px;
   background-image: url("../img/add.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}*/
+
+#buffer {
+  width: 100%;
+  height: 110px;
+  position: fixed;
+  top: 0px;
+  z-index: -1;
+  background-color: white;
+}
+
+#all-content {
+  width: 920px;
+  margin: 60px auto 0px auto;
+  padding: 0px 10px 0px 10px;
+  position: relative;
 }
 
 #add-modal {
-  width: 386px;
-  /*min-height: 30px;*/
+  width: 250px;
+  min-height: 250px;
   background-color: pink;
   border-radius: 5px;
-  padding-bottom: 15px;
-  /*position: relative;*/
+  float: left;
+  position: relative;
+}
+
+#surface {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px 5px 0px 0px;
+  margin: 0px 0px 10px 0px;
+  text-align: center;
+  line-height: 50px;
+  background-color: yellow;
 }
 
 #add-profile-title {
@@ -186,6 +226,7 @@ textarea:focus, input:focus{
   height: 32px;
   margin: 30px auto 0px auto;
 }
+
 .btn {
   height: 30px;
   line-height: 30px;
@@ -212,65 +253,46 @@ textarea:focus, input:focus{
   background-color: red;
 }
 
+
 #content {
-  width: 580px;
-  height: 100%;
-  position: fixed;
-  overflow: auto;
-  margin: 0px 0px 0px -290px; /* 1/2 of width*/
-  top: 60px;
-  left: 50%;
-  /*background-color: yellow;*/
+  width: 400px;
+  margin: 0px 10px;
+  float: left;
+}
+
+#profiles {
+  height: 50px;
+  border-radius: 5px 5px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  text-align: center;
+  line-height: 50px;
+  background-color: yellow;
+  position: relative;
+}
+
+#allCards {
+  position: relative;
+  z-index: -2;
 }
 
 .cards {
-  width: 80%;
-  height: 500px;
   margin: 0px 0px 10px 0px;
   background-color: pink;
-  
+  border-radius: 5px;
 }
 
-.cards .cardHeader{
-  top: 10px;
-  position: relative;
-}
-.cards h1, a{
-  font-weight: bold;
-  font-size: 1.3em;
-  text-decoration: none;
-  color: black;
-}
-
-.cards h2{
-  margin-left: 10px;
-}
-
-.cards .liked-tag{
- /* font-size: 50%;
-  line-height: 20px;
-  margin-right: 5px;
-  padding: 6px 5px 6px 0px;
-  float: right;*/
-  font-size: 1.5em;
-  color: #fff;
-}
-.cards .not-liked-tag, .not-logged-in{
-  /*font-size: 50%;
-  line-height: 20px;
-  margin-right: 5px;
-  padding: 6px 5px 6px 0px;
-  float: right;*/
-  color: blue;
-  font-size: 1.5em;
+.cards:first-of-type {
+  /*margin: 0px 0px 10px 0px;*/
+  /*background-color: green;*/
+  border-radius: 0px 0px 5px 5px;
 }
 
 .cards .cardLogo{
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   float: left;
-  margin: 10px 10px 10px 10px;
-  border: 1px solid black;
+  margin: 10px;
+  background-color: yellow;
   border-radius: 5px;
   background-image: url("../img/fb.png");
   background-size: cover;
@@ -278,27 +300,75 @@ textarea:focus, input:focus{
   background-position: center;
 }
 
-.cardContent{
-  width: 100%;
-  height: 300px;
-  margin-top: 30px;
-  background-color: grey;
-}
-
-.cardTag{
+.cards .cardHeader h1{
   float: left;
-  margin: 3px;
-  border: 1px solid white;
-  border-radius: 3px;
-  background-color: grey;
-  padding: 3px 3px 3px 3px;
-}
-
-#padding {
-  width: 100%;
-  height: 50px; /*height of header to offset */
-  margin: 0px 0px 10px 0px;
+  margin: 10px 10px 10px 0px;
   background-color: green;
 }
 
+.cards .cardHeader h2 {
+  clear: both;
+  margin: 0px 10px 10px 10px;
+}
 
+.cardContent{
+  width: 100%;
+  height: 300px;
+  clear: both;
+  margin: 0px 0px 10px 0px;
+  background-color: grey;
+}
+
+.allTags {
+  /*width: 100%;*/
+  height: 66px;
+  padding: 0px 10px 10px 10px;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.cardTag .liked-tag, .cardTag .not-liked-tag, .cardTag .not-logged-in {
+  padding: 6px 5px 6px 0px;
+  margin: 3px;
+  background-color: gray;
+  float: left;
+}
+
+.cardTag .liked-tag{
+ /* font-size: 50%;
+  line-height: 20px;
+  margin-right: 5px;
+  padding: 6px 5px 6px 0px;
+  float: right;*/
+  /*font-size: 1.5em;*/
+  color: #fff;
+}
+.cardTag .not-liked-tag, .cardTag .not-logged-in {
+  /*font-size: 50%;
+  line-height: 20px;
+  margin-right: 5px;
+  padding: 6px 5px 6px 0px;
+  float: right;*/
+  color: blue;
+  /*font-size: 1.5em;*/
+}
+
+#activity-feed {
+  width: 250px;
+  float: left;
+  position: relative;
+}
+
+#activity {
+  height: 50px;
+  border-radius: 5px 5px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  text-align: center;
+  line-height: 50px;
+  background-color: yellow;
+}
+
+#activity-content {
+  height: 500px;
+  border-radius: 0px 0px 5px 5px;
+  background-color: green;
+}
