@@ -34,9 +34,13 @@
     
     <div id="content" ng-controller="cards">
       <div class="cards" ng-repeat="card in allCards">
-        <h1><a href="{{card.url}}">{{card.name}}</a></h1>
-        <h2>{{card.des}}</h2>
-        <div ng-repeat = "tag in card.tags">
+        <div class="cardLogo"></div>
+        <div class = "cardHeader">
+          <h1><a href="{{card.url}}">{{card.name}}</a></h1>
+          <h2>{{card.des}}</h2>
+        </div>
+        <div class = "cardContent"></div>
+        <div ng-repeat = "tag in card.tags" class = "cardTag">
           <div ng-class="firstname ? (liked(tag[0], card.id) ? '' : '') : 'not-logged-in'" ng-attr-id="{{tag[0] + card.id}}">{{tag[1]}}</div>
         </div>
       </div>
@@ -76,7 +80,7 @@
       </div>
       <div id="btn-holder">
         <div class="btn submit" ng-click="submit()">Submit</div>
-        <div class="btn cancle" onclick="close_modal()">Cancel</div>
+        <div class="btn cancel" onclick="close_modal()">Cancel</div>
       </div>
     </div><!-- end modal -->
 
