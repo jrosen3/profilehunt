@@ -125,7 +125,7 @@ app.controller('modal', ['$scope', function ($scope) {
       $scope.choices.push(data);
     } else {
       // console.log('this tag has already been added');
-      alertSubmitError("You already added this tag.", "p1", 5000);
+      alertSubmitError("You already added this tag.", "p1", 2000);
     }
   });
 
@@ -138,11 +138,11 @@ app.controller('modal', ['$scope', function ($scope) {
         $scope.choices.push($scope.tagList[temp_tagList.indexOf(temp_data)]);
       } else {
         // console.log("this tag has already been added");
-        alertSubmitError("You already added this tag.", "p1", 5000);
+        alertSubmitError("You already added this tag.", "p1", 2000);
       }
     } else {
       // console.log('this is not a valid tag');
-      alertSubmitError("This is not a valid tag.", "p0", 5000);
+      alertSubmitError("This is not a valid tag.", "p0", 2000);
     }
   });
 
@@ -159,7 +159,6 @@ app.controller('modal', ['$scope', function ($scope) {
   function alertSubmitError(text, priority, time){
     $scope.submitError = text;
     $scope.priority = priority;
-    $scope.$apply();
     
     var delay = function(millis) {
       var promise = new Parse.Promise();
@@ -175,100 +174,178 @@ app.controller('modal', ['$scope', function ($scope) {
     });
   };
 
+  function parseUri (str) {
+    var o = parseUri.options,
+        m = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+        uri = {},
+        i = 14;
+
+    while (i--) uri[o.key[i]] = m[i] || "";
+    uri[o.q.name] = {};
+    uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+      if ($1) uri[o.q.name][$1] = $2;
+    });
+
+    return uri;
+  };
+
+  function validateURL(url) {
+    // console.log(url);
+    // parseUri.options = {
+    //   strictMode: false,
+    //   key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+    //   q: {
+    //     name: "queryKey",
+    //     parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+    //   },
+    //   parser: {
+    //     strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+    //     loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+    //   }
+    // };
+    // var host = parseUri(url).host;
+    // console.log(host);
+
+    var R500px      = new RegExp("(500px\.com){1}", "i");
+    var _500px      = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?(500[pP][xX]\.[cC][oO][mM]){1}\/[a-zA-Z0-9_]+[\/]?$");
+    
+    var Rflickr     = new RegExp("(flickr\.com){1}", "i");
+    var _flickr     = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?([fF][lL][iI][cC][kK][rR]\.[cC][oO][mM]){1}\/([pP][hH][oO][tT][oO][sS])\/[a-zA-Z0-9_@]+[\/]?$");
+    
+    var Rgithub     = new RegExp("(github\.com){1}", "i");
+    var _github     = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?([gG][iI][tT][hH][uU][bB]\.[cC][oO][mM]){1}\/[a-zA-Z0-9_]*[\/]?$");
+    
+    var Rsoundcloud = new RegExp("(soundcloud\.com){1}", "i");
+    var _soundcloud = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?([sS][oO][uU][nN][dD][cC][lL][oO][uU][dD]\.[cC][oO][mM]){1}\/[a-zA-Z0-9_-]*[\/]?$");
+
+    var Rtwitter    = new RegExp("(twitter\.com){1}", "i");
+    var _twitter    = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?([tT][wW][iI][tT]{2}[eE][rR]\.[cC][oO][mM]){1}\/[a-zA-Z0-9_]+[\/]?$");
+
+    var v = [false, null];
+    /* */if(R500px.test(url))      { v = (_500px.test(url))      ? [true, "500px"]      : [false, "500px"]; }
+    else if(Rflickr.test(url))     { v = (_flickr.test(url))     ? [true, "flickr"]     : [false, "flickr"]; }
+    else if(Rgithub.test(url))     { v = (_github.test(url))     ? [true, "github"]     : [false, "github"]; }
+    else if(Rsoundcloud.test(url)) { v = (_soundcloud.test(url)) ? [true, "soundcloud"] : [false, "soundcloud"]; }
+    else if(Rtwitter.test(url))    { v = (_twitter.test(url))    ? [true, "twitter"]    : [false, "twitter"]; } 
+    return v;
+  };
+
+  $scope.clear = function() {
+    $("#add-modal form").trigger("reset");
+    $scope.choices = [];
+    alertSubmitError("Form cleared", "p2", 2000);
+  }
 
   $scope.submit = function(){
-    var url = this.url;
-    var des = this.description;
-    var name = this.name;
+    var url = $scope.url;
+    var des = $scope.description;
+    var name = $scope.name;
     if (!currentUser) {
-      alert("Please log in to add a profile. Please sign up");
+      alertSubmitError("Please log in to add a profile", "p0", 2000);
     } else {
-      var Profile = Parse.Object.extend("Profile");
-      var Creators = Parse.Object.extend("Creators");
-      var Endorsements = Parse.Object.extend("Endorsements");
-      var Likes = Parse.Object.extend("Likes");
-      var Tags = Parse.Object.extend("Tags");
-      var query = new Parse.Query(Profile);
-      query.equalTo("url", url);
-      query.find({
-        success: function(profiles){
-          if(profiles.length > 0){
-            console.log("it exists");
-            alertSubmitError("This profile has already been added.", "p0", 5000);
-          } else {
-            if (name == null) {
-              // console.log("bad name");
-              alertSubmitError("Please enter a valid name", "p0", 5000);
-            } else if (name.length < 1) {
-              // console.log("add full name");
-              alertSubmitError("Please enter a valid name", "p0", 5000);
-            } else if (url == null) {
-              // console.log("bad url");
-              alertSubmitError("Please enter a valid url", "p0", 5000);
-            } else if (url.length < 10) {
-              // console.log("add full url");
-              alertSubmitError("Please enter a valid url", "p0", 5000);
-            } else if (des == null) {
-              // console.log("bad description");
-              alertSubmitError("Please enter a valid description", "p0", 5000);
-            } else if (des.length < 10) {
-              // console.log("add full description");
-              alertSubmitError("Please enter a valid description", "p0", 5000);
-            } else if (des.lenght > 100) {
-              // console.log("keep the description short");
-              alertSubmitError("Please keep the description brief, less than 100 caracters", "p0", 5000);
-            } else if ($scope.choices.length < 2) {
-              // console.log("add more tags");
-              alertSubmitError("Please enter at least two tags", "p0", 5000);
+      /* accepts a url and returns [bool, site]*/
+      var validate = validateURL(url);
+      if (!validate[0]) {
+        alertSubmitError("Please enter a valid URL", "p0", 2000);
+        // console.log("not a valid URL");
+      } else {
+        console.log(validate[1]);
+        var Profile = Parse.Object.extend("Profile");
+        var Creators = Parse.Object.extend("Creators");
+        var Endorsements = Parse.Object.extend("Endorsements");
+        var Likes = Parse.Object.extend("Likes");
+        var Tags = Parse.Object.extend("Tags");
+        var query = new Parse.Query(Profile);
+        query.equalTo("url", url);
+        query.count({
+          success: function(profiles){
+            if(profiles > 0){
+              // console.log("it exists");
+              alertSubmitError("This profile has already been added", "p0", 2000);
+              $scope.$apply();
             } else {
-              var profile = new Profile();
-              var creators = new Creators();
+              if (name == null) {
+                // console.log("bad name");
+                alertSubmitError("Please enter a valid name", "p0", 2000);
+                $scope.$apply();
+              } else if (name.length < 1) {
+                // console.log("add full name");
+                alertSubmitError("Please enter a valid name", "p0", 2000);
+                $scope.$apply();
+              } else if (url == null) {
+                // console.log("bad url");
+                alertSubmitError("Please enter a valid url", "p0", 2000);
+                $scope.$apply();
+              } else if (url.length < 10) {
+                // console.log("add full url");
+                alertSubmitError("Please enter a valid url", "p0", 2000);
+                $scope.$apply();
+              } else if (des == null) {
+                // console.log("bad description");
+                alertSubmitError("Please enter a valid description", "p0", 2000);
+                $scope.$apply();
+              } else if (des.length < 10) {
+                // console.log("add full description");
+                alertSubmitError("Please enter a valid description", "p0", 2000);
+                $scope.$apply();
+              } else if (des.lenght > 100) {
+                // console.log("keep the description short");
+                alertSubmitError("Please keep the description brief, less than 100 caracters", "p0", 2000);
+                $scope.$apply();
+              } else if ($scope.choices.length < 2) {
+                // console.log("add more tags");
+                alertSubmitError("Please enter at least two tags", "p0", 2000);
+                $scope.$apply();
+              } else {
+                var profile = new Profile();
+                var creators = new Creators();
 
-              profile.save({"name":name, "url":url, "description":des})
-              .then(function(profileObject) {
-                // console.log("profile saved");
-                return profileObject;
-              })
-              .then(function(profileObject) {
-                // once profile is saved
-                creators.save({"user":currentUser, "profile":profileObject, "date":Date()})
-                .then(function(creatorsObject) {
-                  // console.log("creators saved");
-                  return creatorsObject;
+                profile.save({"name":name, "url":url, "description":des})
+                .then(function(profileObject) {
+                  // console.log("profile saved");
+                  return profileObject;
                 })
-                .then(function(creatorsObject) {
-                  // once the creatos is saved
-                  $scope.choices.forEach(function(c) {
-                    var query = new Parse.Query(Tags);
-                    query.equalTo("tag_name", c);
-                    query.find({
-                      success: function(t) {
-                        // if the tag is found
-                        var endorsements = new Endorsements();
-                        endorsements.save({"profile":profileObject, "upvotes":1, "tag":t[0]});
-                        var likes = new Likes();
-                        likes.save({"profile":profileObject, "user":currentUser, "tag":t[0]});
-                      }
+                .then(function(profileObject) {
+                  // once profile is saved
+                  creators.save({"user":currentUser, "profile":profileObject, "date":Date()})
+                  .then(function(creatorsObject) {
+                    // console.log("creators saved");
+                    return creatorsObject;
+                  })
+                  .then(function(creatorsObject) {
+                    // once the creatos is saved
+                    $scope.choices.forEach(function(c) {
+                      var query = new Parse.Query(Tags);
+                      query.equalTo("tag_name", c);
+                      query.find({
+                        success: function(t) {
+                          // if the tag is found
+                          var endorsements = new Endorsements();
+                          endorsements.save({"profile":profileObject, "upvotes":1, "tag":t[0]});
+                          var likes = new Likes();
+                          likes.save({"profile":profileObject, "user":currentUser, "tag":t[0]});
+                        }
+                      });
                     });
+
+                    // console.log("you have added the profile")
+                    alertSubmitError("You successfully added the profile", "p2", 2000);
+
+                    $scope.choices = [];
+                    $scope.name = null;
+                    $scope.url = null;
+                    $scope.description = null;
+                    $scope.$apply();
+                    // $("#add-modal").trigger('closeModal');
                   });
-
-                  // console.log("you have added the profile")
-                  alertSubmitError("You successfully added the profile", "p2", 5000);
-
-                  $scope.choices = [];
-                  $scope.name = null;
-                  $scope.url = null;
-                  $scope.description = null;
-                  $scope.$apply();
-                  $("#add-modal").trigger('closeModal');
-                });
-              }); 
+                }); 
+              }
             }
           }
-        }
-      });
-    }  
-  }
+        });
+      };
+    };  
+  };
 }]); /* end modal controller */
 
 app.controller('cards', ['$scope', function ($scope) {
@@ -355,6 +432,7 @@ app.controller('cards', ['$scope', function ($scope) {
     query.equalTo("user", currentUser);
     query.equalTo("profile", searchprofile);
     query.equalTo("tag", searchtag);
+    // query.limit(1);
 
     query.count().then(function(results){
       return results

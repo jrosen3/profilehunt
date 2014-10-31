@@ -111,92 +111,59 @@ header {
   background-color: yellow;
 }
 
-#add-profile-title {
-  width: 90%;
-  height: 50px;
-  margin: 20px auto;
-  border-radius: 5px;
-  text-align: center;
-}
-
-#add-profile-error {
-  width: 90%;
-  height: 46px;
-  margin: 20px auto;
-  border-radius: 5px;
-  text-align: center;
-}
-
-#add-profile-title h2 {
-  font-weight: bold;
-}
-
-#add-profile-error {
-  border: 2px solid;
-}
-
-.p0 {
-  border-color: red;
-  background-color: rgba(255, 0, 0, 0.25);
-  color: red;
-}
-
-.p1 {
-  border-color: yellow;
-  background-color: lightyellow;
-  color: black;
-}
-
-.p2 {
-  border-color: green;
-  background-color: rgba(0, 255, 0, 0.25);
-  color: green;
-}
-
-textarea:focus, input:focus{
-    outline: 0;
-}
-
 #add-modal form {
-  /*Make it look good*/
-  width: 75%;
+  width: 90%;
   margin: 0px auto;
 }
 
-#add-modal form input[name="name"] {
-  /*Make it look good*/
+#add-modal textarea, #add-modal input {
+  border: none;
+  border-radius: 2px;
+}
+
+#add-modal textarea:focus, #add-modal input:focus {
+    outline: 0;
+}
+
+#add-modal form input {
   width: 100%;
   height: 25px;
+  font-size: 100%;
+}
+
+#add-modal textarea {
+  resize: none;
+  width: 100%;
+  height: 50px;
+  font-size: 100%;
+}
+
+#add-modal form input[name="name"] {
+
 }
 
 #add-modal form input[name="url"] {
-  /*Make it look good*/
-  width: 100%;
-  height: 25px;
   margin: 10px 0px;
 }
 
 #add-modal form input[name="description"] {
-  /*Make it look good*/
-  width: 100%;
-  height: 25px;
   margin-bottom: 10px;
 }
 
 #all-tags {
-  width: 75%;
-  min-height: 20px;
-  margin: 0px auto;
-  margin-bottom: 10px;
+  width: 90%;
+  min-height: 50px;
+  margin: 0px auto 10px auto;
 }
 
 .tags {  
   float: left;
   margin: 3px;
-  border: 1px solid orange;
+  /*border: 1px solid orange;*/
   border-radius: 3px;
-  background-color: black;
-  color: orange;
+  background-color: orange;
+  color: black;
+  font-weight: bold;
 }
 
 .tags p {
@@ -211,32 +178,74 @@ textarea:focus, input:focus{
   width: 10px;
   height: 10px;
   margin: 5px;
-  background-color: orange;
+  /*background-color: green;*/
   float: left;
+
+  cursor: pointer;
   
-  /*background-image: url("../img/x.png");
-  background-size: cover;
+  background-image: url("../img/x.png");
+  background-size: 200% 250%;
   background-repeat: no-repeat;
-  background-position: center;*/
+  background-position: 47% 46%;
+}
+
+/*.delete-tag:before {
+  content: 'x';
+  color: #fff;
+  font-family: helvetica, Arial, sans-serif;
+  font-weight: lighter;
+}*/
+
+#add-profile-error {
+  width: 90%;
+  height: 50px;
+  margin: 0px auto;
+  border-radius: 2px;
+  text-align: center;
+  line-height: 50px;
+}
+
+#add-profile-error p {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  font-size: 75%;
+}
+
+.p0 {
+  border-color: red;
+  background-color: rgba(255, 0, 0, 0.25);
+  color: red;
+}
+
+.p1 {
+  border-color: yellow;
+  background-color: lightyellow;
+  color: yellow;
+}
+
+.p2 {
+  border-color: green;
+  background-color: rgba(0, 255, 0, 0.25);
+  color: green;
 }
 
 #btn-holder {
   clear: both;
-  width: 213px;
-  height: 32px;
-  margin: 30px auto 0px auto;
+  width: 209px;
+  height: 25px;
+  margin: 10px auto;
 }
 
 .btn {
-  height: 30px;
-  line-height: 30px;
+  height: 25px;
+  line-height: 25px;
   text-align: center;
   float: left;
 
   font-size: 75%;
-
-  border: 1px solid black;
-  border-radius: 3px;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
 .submit {
@@ -282,8 +291,6 @@ textarea:focus, input:focus{
 }
 
 .cards:first-of-type {
-  /*margin: 0px 0px 10px 0px;*/
-  /*background-color: green;*/
   border-radius: 0px 0px 5px 5px;
 }
 
