@@ -367,6 +367,7 @@ app.controller('cards', ['$scope', function ($scope) {
 
   $scope.allCards = [];
 
+
   var Profile = Parse.Object.extend("Profile");
   var query = new Parse.Query(Profile);
   query.descending("createdAt");
