@@ -206,29 +206,34 @@ app.controller('modal', ['$scope', function ($scope) {
     // var host = parseUri(url).host;
     // console.log(host);
 
+
     var R500px      = new RegExp("(500px\.com){1}", "i");
-    var _500px      = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?(500[pP][xX]\.[cC][oO][mM]){1}\/[a-zA-Z0-9_]+[\/]?$");
+    var C500px      = new RegExp("(500px\.com){1}\/[a-z0-9_]+$", "i");
     
     var Rflickr     = new RegExp("(flickr\.com){1}", "i");
-    var _flickr     = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?([fF][lL][iI][cC][kK][rR]\.[cC][oO][mM]){1}\/([pP][hH][oO][tT][oO][sS])\/[a-zA-Z0-9_@]+[\/]?$");
+    var Cflickr     = new RegExp("(flickr\.com){1}\/(photos)\/[a-z0-9_@]+$", "i");
     
     var Rgithub     = new RegExp("(github\.com){1}", "i");
-    var _github     = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?([gG][iI][tT][hH][uU][bB]\.[cC][oO][mM]){1}\/[a-zA-Z0-9_]*[\/]?$");
+    var Cgithub     = new RegExp("(github\.com){1}\/[a-z0-9_]+$", "i");
     
     var Rsoundcloud = new RegExp("(soundcloud\.com){1}", "i");
-    var _soundcloud = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?([sS][oO][uU][nN][dD][cC][lL][oO][uU][dD]\.[cC][oO][mM]){1}\/[a-zA-Z0-9_-]*[\/]?$");
+    var Csoundcloud = new RegExp("(soundcloud\.com){1}\/[a-z0-9_-]+$", "i");
 
     var Rtwitter    = new RegExp("(twitter\.com){1}", "i");
-    var _twitter    = new RegExp("^([hH][tT]{2}[pP]\:\/{2}|[hH][tT]{2}[pP][sS]\:\/{2})?([Ww]{3}\.)?([tT][wW][iI][tT]{2}[eE][rR]\.[cC][oO][mM]){1}\/[a-zA-Z0-9_]+[\/]?$");
+    var Ctwitter    = new RegExp("(twitter\.com){1}\/[a-zA-Z0-9_]+$", "i");
 
-    var v = [false, null];
-    /* */if(R500px.test(url))      { v = (_500px.test(url))      ? [true, "500px"]      : [false, "500px"]; }
-    else if(Rflickr.test(url))     { v = (_flickr.test(url))     ? [true, "flickr"]     : [false, "flickr"]; }
-    else if(Rgithub.test(url))     { v = (_github.test(url))     ? [true, "github"]     : [false, "github"]; }
-    else if(Rsoundcloud.test(url)) { v = (_soundcloud.test(url)) ? [true, "soundcloud"] : [false, "soundcloud"]; }
-    else if(Rtwitter.test(url))    { v = (_twitter.test(url))    ? [true, "twitter"]    : [false, "twitter"]; } 
+
+    var v = [url, null];
+    /**/ if(R500px.test(url))      { v = [c(url.match(C500px)),      "500px"]; }
+    else if(Rflickr.test(url))     { v = [c(url.match(Cflickr)),     "Flickr"]; }
+    else if(Rgithub.test(url))     { v = [c(url.match(Cgithub)),     "GitHub"]; }
+    else if(Rsoundcloud.test(url)) { v = [c(url.match(Csoundcloud)), "SoundCloud"]; }
+    else if(Rtwitter.test(url))    { v = [c(url.match(Ctwitter)),    "Twitter"]; } 
+    
     return v;
   };
+
+  var c = function(url) { return (url == null) ? null : "//"+url[0].toLowerCase(); };
 
   $scope.clear = function() {
     $("#add-modal form").trigger("reset");
@@ -245,11 +250,11 @@ app.controller('modal', ['$scope', function ($scope) {
     } else {
       /* accepts a url and returns [bool, site]*/
       var validate = validateURL(url);
-      if (!validate[0]) {
-        alertSubmitError("Please enter a valid URL", "p0", 2000);
+      if (validate[0] == null) {
+        alertSubmitError("Please enter a valid " + validate[1] + " URL", "p0", 2000);
         // console.log("not a valid URL");
       } else {
-        console.log(validate[1]);
+        console.log(validate[0], validate[1]);
         var Profile = Parse.Object.extend("Profile");
         var Creators = Parse.Object.extend("Creators");
         var Endorsements = Parse.Object.extend("Endorsements");
